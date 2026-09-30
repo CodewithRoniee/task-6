@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basin &amp; Bloom — Plants &amp; botanical goods</title>
+<meta name="description" content="Houseplants, planters, and care tools for people learning to keep things alive.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">Basin <span class="brand-dot">&amp;</span> Bloom</a>
+    <div class="nav-links">
+      <span id="navSession"></span>
+      <button class="cart-toggle" id="cartToggle" aria-label="Open cart">
+        Cart <span class="cart-badge" id="cartBadgeNav">0</span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <div>
+        <div class="hero-eyebrow">New arrivals weekly, watered by hand before they ship</div>
+        <h1>Plants that survive you learning how to keep them.</h1>
+        <p>A small, hand-picked catalog of houseplants, pots, and the few tools actually worth owning. Every plant leaves the nursery the same week it ships.</p>
+        <div class="hero-cta">
+          <a href="#catalog" class="btn btn-primary">Shop the catalog</a>
+          <a href="#care-notes" class="btn btn-ghost">Read care basics</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60 108 V45" class="stem"/>
+          <path d="M60 45 C25 40 15 12 25 3 C42 8 56 27 60 45Z" class="leaf-a"/>
+          <path d="M60 45 C95 40 105 12 95 3 C78 8 64 27 60 45Z" class="leaf-b"/>
+          <path d="M60 62 C38 60 25 42 30 30 C48 33 58 47 60 62Z" class="leaf-a"/>
+          <path d="M60 62 C82 60 95 42 90 30 C72 33 62 47 60 62Z" class="leaf-b"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="catalog-header container" id="catalog">
+    <div class="eyebrow">The catalog</div>
+    <h2>Everything currently in stock</h2>
+  </section>
+
+  <div class="filter-row container" id="filterRow"></div>
+
+  <div class="catalog-grid container" id="catalogGrid"></div>
+
+  <section class="section section-alt" id="care-notes">
+    <div class="container">
+      <div class="eyebrow">Before you buy</div>
+      <h2>Three things that matter more than the plant itself</h2>
+      <div class="two-col" style="margin-top:28px;">
+        <div class="feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="5"/><path d="M12 2v3M12 19v3M4 12H2M22 12h-2M5 5l1.5 1.5M18.5 18.5L20 20M5 19l1.5-1.5M18.5 5.5L20 4"/></svg>
+          <h3>Light comes before water</h3>
+          <p>Most houseplant deaths trace back to the wrong spot in the room, not a missed watering. We note the light each plant actually needs, not the light it can technically survive.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3c4 5 7 8.5 7 12a7 7 0 1 1-14 0c0-3.5 3-7 7-12Z"/></svg>
+          <h3>Underwater, don't overwater</h3>
+          <p>Nearly every plant we sell would rather be forgotten for a week than watered on a fixed schedule. Check the soil, not the calendar.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c-4-3-7-6.5-7-10a7 7 0 0 1 14 0c0 3.5-3 7-7 10Z"/><circle cx="12" cy="11" r="2.4"/></svg>
+          <h3>Repot in spring, not panic</h3>
+          <p>A plant that looks unhappy usually needs a different windowsill before it needs a bigger pot. Wait for active growth before you disturb the roots.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>Basin &amp; Bloom — a capstone demo storefront. Not a real shop.</div>
+    <div><a href="admin.html">Shop admin</a></div>
+  </div>
+</footer>
+
+<!-- Product detail modal -->
+<div class="modal-backdrop" id="productModalBackdrop">
+  <div class="modal" id="productModal" role="dialog" aria-modal="true" style="position:relative;">
+    <button class="modal-close" id="modalCloseBtn" aria-label="Close">&times;</button>
+    <div class="modal-grid">
+      <div class="modal-art" id="modalArt"></div>
+      <div class="modal-info">
+        <div class="card-cat" id="modalCat"></div>
+        <h2 id="modalName"></h2>
+        <p id="modalDesc"></p>
+        <div class="card-price" id="modalPrice" style="font-size:1.2rem;"></div>
+        <div id="modalStock" style="font-size:0.86rem;color:var(--ink-soft);"></div>
+        <div class="qty-row">
+          <div class="qty-control">
+            <button id="qtyDown" aria-label="Decrease quantity">−</button>
+            <input type="text" id="qtyInput" value="1" inputmode="numeric">
+            <button id="qtyUp" aria-label="Increase quantity">+</button>
+          </div>
+          <button class="btn btn-primary" id="modalAddBtn" style="flex:1;">Add to cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cart drawer -->
+<div class="cart-drawer-backdrop" id="cartBackdrop"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+  <div class="cart-header">
+    <h3 style="margin:0;">Your cart</h3>
+    <button id="cartCloseBtn" aria-label="Close cart" style="background:none;border:none;font-size:1.3rem;">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <span>Subtotal</span>
+      <span id="cartTotal">$0.00</span>
+    </div>
+    <a href="checkout.html" class="btn btn-primary btn-block" id="checkoutBtn">Checkout</a>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/store.js"></script>
+<script src="js/catalog.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Basin &amp; Bloom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">Basin <span class="brand-dot">&amp;</span> Bloom</a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Back to shop</a>
+    </div>
+  </nav>
+</header>
+
+<main class="auth-shell" style="max-width:640px;">
+  <h2 style="margin-bottom:4px;">Checkout</h2>
+  <p style="color:var(--ink-soft);margin-bottom:24px;">This is a simulated checkout — no payment is collected, and nothing is actually shipped.</p>
+
+  <div class="auth-card">
+    <div id="emptyState" style="display:none;text-align:center;padding:20px 0;">
+      <p>Your cart is empty.</p>
+      <a href="index.html" class="btn btn-outline">Back to catalog</a>
+    </div>
+
+    <form id="checkoutForm">
+      <div id="orderLines" style="margin-bottom:20px;"></div>
+      <div class="cart-total-row" style="border-top:1px solid var(--linen-dim);padding-top:12px;margin-bottom:20px;">
+        <span>Total</span>
+        <span id="checkoutTotal">$0.00</span>
+      </div>
+
+      <div class="field">
+        <label for="ckEmail">Email for order confirmation</label>
+        <input type="email" id="ckEmail" required placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="ckAddress">Shipping address</label>
+        <textarea id="ckAddress" rows="3" required placeholder="123 Fern Street, Portland, OR"></textarea>
+      </div>
+      <div class="field">
+        <label for="ckCard">Card number (demo only — not validated)</label>
+        <input type="text" id="ckCard" required placeholder="4242 4242 4242 4242" maxlength="19">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Place order</button>
+    </form>
+  </div>
+</main>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/store.js"></script>
+<script>
+  const products = getProducts();
+  const cart = getCart();
+  const orderLines = document.getElementById("orderLines");
+  const checkoutForm = document.getElementById("checkoutForm");
+
+  if (cart.length === 0) {
+    document.getElementById("emptyState").style.display = "block";
+    checkoutForm.style.display = "none";
+  } else {
+    orderLines.innerHTML = cart.map(line => {
+      const p = products.find(p => p.id === line.productId);
+      if (!p) return "";
+      return `<div class="order-line"><span>${escapeHtml(p.name)} × ${line.qty}</span><span>$${(p.price * line.qty).toFixed(2)}</span></div>`;
+    }).join("");
+    document.getElementById("checkoutTotal").textContent = `$${cartTotal(products).toFixed(2)}`;
+
+    const session = getSession();
+    if (session) document.getElementById("ckEmail").value = session.email;
+  }
+
+  checkoutForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("ckEmail").value.trim();
+    const result = placeOrder(products, email);
+    if (!result.ok) return;
+    sessionStorage.setItem("bb_last_order", JSON.stringify(result.order));
+    window.location.href = "order-confirmed.html";
+  });
+</script>
+</body>
+</html>

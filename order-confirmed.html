@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order confirmed — Basin &amp; Bloom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">Basin <span class="brand-dot">&amp;</span> Bloom</a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Back to shop</a>
+    </div>
+  </nav>
+</header>
+
+<main class="confirm-shell" id="confirmShell">
+  <div class="confirm-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>
+  </div>
+  <h2>Order placed</h2>
+  <p id="confirmMsg" style="color:var(--ink-soft);"></p>
+
+  <div class="order-summary" id="orderSummary"></div>
+
+  <a href="index.html" class="btn btn-primary">Continue shopping</a>
+</main>
+
+<script>
+  const raw = sessionStorage.getItem("bb_last_order");
+  if (!raw) {
+    document.getElementById("confirmShell").innerHTML = `
+      <h2>No order to show</h2>
+      <p style="color:var(--ink-soft);">Looks like you got here directly. <a href="index.html">Back to the shop</a>.</p>
+    `;
+  } else {
+    const order = JSON.parse(raw);
+    document.getElementById("confirmMsg").textContent =
+      `Confirmation sent to ${order.email}. Order ${order.id}.`;
+    document.getElementById("orderSummary").innerHTML = order.items.map(i =>
+      `<div class="order-line"><span>${i.name} × ${i.qty}</span><span>$${(i.price * i.qty).toFixed(2)}</span></div>`
+    ).join("") + `<div class="order-line" style="font-weight:600;border-top:1px solid var(--linen-dim);padding-top:8px;margin-top:6px;"><span>Total</span><span>$${order.total.toFixed(2)}</span></div>`;
+    sessionStorage.removeItem("bb_last_order");
+  }
+</script>
+</body>
+</html>

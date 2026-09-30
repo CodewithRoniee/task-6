@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop admin — Basin &amp; Bloom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">Basin <span class="brand-dot">&amp;</span> Bloom</a>
+    <div class="nav-links">
+      <span id="navSession"></span>
+      <a class="nav-link" href="index.html">View shop</a>
+    </div>
+  </nav>
+</header>
+
+<main class="admin-shell">
+  <div class="admin-header">
+    <div>
+      <div class="eyebrow">Shop admin</div>
+      <h2 style="margin:0;">Products</h2>
+    </div>
+    <button class="btn btn-primary" id="addProductBtn">Add product</button>
+  </div>
+
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="adminTableBody"></tbody>
+    </table>
+  </div>
+
+  <h2 style="margin-top:48px;">Recent orders</h2>
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr><th>Order</th><th>Email</th><th>Items</th><th>Total</th><th>Placed</th></tr>
+      </thead>
+      <tbody id="ordersTableBody"></tbody>
+    </table>
+  </div>
+</main>
+
+<!-- Product editor modal -->
+<div class="admin-editor-backdrop" id="editorBackdrop">
+  <div class="admin-editor">
+    <h3 id="editorTitle">Add product</h3>
+    <form id="editorForm">
+      <input type="hidden" id="editId">
+      <div class="field">
+        <label for="editName">Name</label>
+        <input type="text" id="editName" required>
+      </div>
+      <div class="field">
+        <label for="editCategory">Category</label>
+        <input type="text" id="editCategory" required placeholder="Plants, Pots & Planters, Tools & Care, Gifts...">
+      </div>
+      <div class="field">
+        <label for="editPrice">Price (USD)</label>
+        <input type="number" id="editPrice" step="0.01" min="0" required>
+      </div>
+      <div class="field">
+        <label for="editStock">Stock</label>
+        <input type="number" id="editStock" step="1" min="0" required>
+      </div>
+      <div class="field">
+        <label for="editIcon">Icon</label>
+        <select id="editIcon">
+          <option value="leaf-split">Leaf — split</option>
+          <option value="leaf-spear">Leaf — spear</option>
+          <option value="leaf-vine">Leaf — vine</option>
+          <option value="leaf-fiddle">Leaf — broad</option>
+          <option value="pot-round">Pot — round</option>
+          <option value="pot-basket">Pot — basket</option>
+          <option value="pot-floor">Pot — floor</option>
+          <option value="tool-can">Tool — watering can</option>
+          <option value="tool-snips">Tool — snips</option>
+          <option value="tool-bottle">Tool — bottle</option>
+          <option value="gift-macrame">Gift — macrame</option>
+          <option value="gift-card">Gift — card</option>
+          <option value="gift-card2">Gift — card (alt)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="editBlurb">Short blurb (shown in catalog)</label>
+        <input type="text" id="editBlurb" required maxlength="90">
+      </div>
+      <div class="field">
+        <label for="editDescription">Full description</label>
+        <textarea id="editDescription" rows="4" required></textarea>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:8px;">
+        <button type="button" class="btn btn-outline" id="cancelEditBtn" style="flex:1;">Cancel</button>
+        <button type="submit" class="btn btn-primary" style="flex:1;">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

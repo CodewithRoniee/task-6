@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log in — Basin &amp; Bloom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">Basin <span class="brand-dot">&amp;</span> Bloom</a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Back to shop</a>
+    </div>
+  </nav>
+</header>
+
+<main class="auth-shell">
+  <div class="auth-card">
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin">Log in</button>
+      <button class="auth-tab" id="tabSignup">Sign up</button>
+    </div>
+
+    <div class="form-error-banner" id="errorBanner"></div>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Log in</button>
+      <p class="form-hint">Demo admin account: admin@basinbloom.test / admin123</p>
+    </form>
+
+    <form id="signupForm" style="display:none;">
+      <div class="field">
+        <label for="signupName">Name</label>
+        <input type="text" id="signupName" required placeholder="Jane Doe">
+      </div>
+      <div class="field">
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" required placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" required minlength="4" placeholder="At least 4 characters">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Create account</button>
+      <p class="form-hint">This is a simulated login for demo purposes — accounts live only in your browser's storage.</p>
+    </form>
+  </div>
+</main>
+
+<script src="js/auth.js"></script>
+<script>
+  const tabLogin = document.getElementById("tabLogin");
+  const tabSignup = document.getElementById("tabSignup");
+  const loginForm = document.getElementById("loginForm");
+  const signupForm = document.getElementById("signupForm");
+  const errorBanner = document.getElementById("errorBanner");
+
+  function showTab(which) {
+    errorBanner.classList.remove("show");
+    if (which === "login") {
+      tabLogin.classList.add("active"); tabSignup.classList.remove("active");
+      loginForm.style.display = "block"; signupForm.style.display = "none";
+    } else {
+      tabSignup.classList.add("active"); tabLogin.classList.remove("active");
+      signupForm.style.display = "block"; loginForm.style.display = "none";
+    }
+  }
+  tabLogin.addEventListener("click", () => showTab("login"));
+  tabSignup.addEventListener("click", () => showTab("signup"));
+
+  function nextUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("next") || "index.html";
+  }
+
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    seedAdminIfNeeded();
+    const result = login(email, password);
+    if (!result.ok) {
+      errorBanner.textContent = result.error;
+      errorBanner.classList.add("show");
+      return;
+    }
+    window.location.href = nextUrl();
+  });
+
+  signupForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("signupName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value;
+    const result = signup(name, email, password);
+    if (!result.ok) {
+      errorBanner.textContent = result.error;
+      errorBanner.classList.add("show");
+      return;
+    }
+    window.location.href = nextUrl();
+  });
+
+  seedAdminIfNeeded();
+</script>
+</body>
+</html>
